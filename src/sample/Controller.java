@@ -1,8 +1,6 @@
 package sample;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -80,51 +78,12 @@ public class Controller {
     private String str_num = "";
     private float first_num = 0;
     private char operation;
-    private ArrayList<Button> listNumberButton = new ArrayList<Button>();
+    private final static int[] arrayNumbers = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+
 
     @FXML
     void initialize() {
-        Button[] listButtons = new Button[]{null_button,one_button,two_button,three_button};
-        addValueListNumberButton();
-        null_button.setOnAction(actionEvent -> {// обработка нажатия на кнопку
-            addNumberFromLabel(0);
-        });
-
-        one_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(1);
-        });
-
-        two_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(2);
-        });
-
-        three_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(3);
-        });
-
-        four_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(4);
-        });
-
-        five_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(5);
-        });
-
-        six_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(6);
-        });
-
-        seven_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(7);
-        });
-
-        eigth_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(8);
-        });
-
-        nine_button.setOnAction(actionEvent -> {
-            addNumberFromLabel(9);
-        });
+        initButtonNumber();
 
         plus_button.setOnAction(actionEvent -> {
             mathAction('+');
@@ -143,8 +102,8 @@ public class Controller {
         });
 
         equals_button.setOnAction(actionEvent -> {
-            if(this.operation == '+' || this.operation == '-'
-                    || this.operation == '/' || this.operation == '*'){
+            if (this.operation == '+' || this.operation == '-'
+                    || this.operation == '/' || this.operation == '*') {
                 equalsMethod();
             }
         });
@@ -152,21 +111,21 @@ public class Controller {
 
         double_button.setOnAction(actionEvent -> {
             this.str_num += ".";
-            if(this.str_num.contains(".")){
+            if (this.str_num.contains(".")) {
                 label_field.setText(str_num);
 
             }
         });
 
         module_button.setOnAction(actionEvent -> {
-            if(this.str_num != ""){
+            if (this.str_num != "") {
                 float num = Float.parseFloat(this.str_num) * 0.1f;
                 this.str_num = Float.toString(num);
                 label_field.setText(str_num);
             }
         });
         pm_button.setOnAction(actionEvent -> {
-            if(this.str_num != ""){
+            if (this.str_num != "") {
                 float num = Float.parseFloat(this.str_num) * -1;
                 this.str_num = Float.toString(num);
                 label_field.setText(str_num);
@@ -176,19 +135,19 @@ public class Controller {
         clear_button.setOnAction(actionEvent -> {
             label_field.setText("0");
             this.str_num = "";
-            this.first_num = 0 ;
+            this.first_num = 0;
             this.operation = 'A';
         });
 
     }
 
     private void mathAction(char operation) {
-        if(this.operation != '+' && this.operation != '-'
-        && this.operation != '/' && this.operation != '*') {
+        if (this.operation != '+' && this.operation != '-'
+                && this.operation != '/' && this.operation != '*') {
             this.first_num = Float.parseFloat(this.str_num);
             label_field.setText(String.valueOf(operation));// выводим знак операции
-            this.str_num ="";
-            this.operation =operation;
+            this.str_num = "";
+            this.operation = operation;
         }
 
     }
@@ -198,9 +157,9 @@ public class Controller {
         label_field.setText(str_num);// setText - установка текста на поле
     }
 
-    private void equalsMethod(){
+    private void equalsMethod() {
         float res = 0;
-        switch (this.operation){
+        switch (this.operation) {
             case '+':
                 res = this.first_num + Float.parseFloat(this.str_num);
                 break;
@@ -214,10 +173,10 @@ public class Controller {
                 break;
 
             case '/':
-                if(Integer.parseInt(this.str_num) != 0){
+                if (Integer.parseInt(this.str_num) != 0) {
                     res = this.first_num / Float.parseFloat(this.str_num);
                     break;
-                }else{
+                } else {
                     res = 0;
                 }
 
@@ -226,18 +185,18 @@ public class Controller {
         label_field.setText(Float.toString(res));
         this.str_num = "";
         this.operation = 'A';
-        this.first_num =0 ;
+        this.first_num = 0;
     }
 
-    public ArrayList<Button> getListNumberButton() {
-        return listNumberButton;
+    public void initButtonNumber() {
+        Button[] listButtons = new Button[]{null_button, one_button, two_button, three_button,
+                four_button, five_button, six_button, seven_button, eigth_button, nine_button,};
+        for (int i : arrayNumbers) {
+            listButtons[i].setOnAction(actionEvent -> {
+                addNumberFromLabel(arrayNumbers[i]);
+            });
+        }
     }
 
-    public void setListNumberButton(ArrayList<Button> listNumberButton) {
-        this.listNumberButton = listNumberButton;
-    }
 
-    public void addValueListNumberButton(Button[] button){
-        listNumberButton.addAll(Arrays.asList(button));
-    }
 }
